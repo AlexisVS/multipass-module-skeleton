@@ -47,7 +47,18 @@
     "autoload": {
         "psr-4": {
             "App\\": "../../../app/",
+            "App\\Enums\\": "app/Enums/",
+            "App\\Enums\\Permissions\\": "../../../app/Enums/Permissions/",
             "Src\\": "../../../src/",
+            "Src\\core\\": "../../../src/core",
+            "Src\\core\\action\\": "../../../src/core/action/",
+            "Src\\core\\action\\abstract\\": "../../../src/core/action/abstract/",
+            "Src\\core\\action\\interfaces\\": "../../../src/core/action/interfaces/",
+            "Src\\core\\component\\": "../../../src/core/component/",
+            "Src\\core\\component\\dataLoaders\\": "../../../src/core/component/dataLoaders/",
+            "Src\\core\\component\\interfaces\\": "../../../src/core/component/interfaces/",
+            "Src\\core\\hook\\": "../../../src/core/hook/",
+            "Src\\core\\module\\": "../../../src/core/module/",
             "Database\\": "../../../database/",
             "Database\\Factories\\": "../../../database/factories/",
             "Database\\Migrations\\": "../../../database/migrations/",
