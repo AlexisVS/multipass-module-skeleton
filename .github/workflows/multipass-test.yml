@@ -7,14 +7,17 @@ on:
 env:
   GITHUB_REPO_NAME: ${{ github.event.repository.name }}
   GITHUB_USER: ${{ github.repository_owner }}
-  VENDOR_USER: $(echo ${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]')
-  VENDOR_PATH: $VENDOR_USER/$GITHUB_REPO_NAME
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
     steps:
+      - id: lower-case_github_user
+        uses: ASzc/change-string-case-action@v5
+        with:
+          string: ${{ env.GITHUB_USER }}
+
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
           php-version: '8.2'
@@ -29,6 +32,26 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
 
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Directory and Permissions
+        run: |
+          mkdir -p storage/framework/{sessions,views,cache}
+          mkdir -p bootstrap/cache
+          chmod -R 777 storage bootstrap/cache
+
+      - name: Clear cache
+        run: php artisan cache:clear
+
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
+      - name: Build assets
+        run: npm install && npm run build
+
       - name: Create composer.modules.json and fill it
         run: |
           cat <<EOF > composer.modules.json
@@ -40,7 +63,7 @@ jobs:
             }
           ],
             "require": {
-              "${VENDOR_USER}/${MODULE_NAME}": "dev-main"
+              "$GITHUB_USER/$GITHUB_REPO_NAME": "dev-main"
             }
           }
           EOF
@@ -49,10 +72,16 @@ jobs:
         run: composer update
 
       - name: Test app.
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
 
       - name: Test module
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ${{ github.workspace }}/database/database.sqlite
         run: |
-          cd ./vendor/${VENDOR_PATH}
+          cd ./vendor/${{ steps.lower-case_github_user.outputs.lowercase }}/${{ env.GITHUB_REPO_NAME }}
           composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-          vendor/bin/phpunit
+          vendor/bin/pest
