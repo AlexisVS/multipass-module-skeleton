@@ -7,6 +7,19 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+      timezone: "Europe/Brussels"
+      time: "00:00"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      timezone: "Europe/Brussels"
+      time: "02:00"
+    open-pull-requests-limit: 10
     labels:
       - "dependencies"
