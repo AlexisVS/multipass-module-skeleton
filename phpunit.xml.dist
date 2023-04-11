@@ -30,6 +30,9 @@
             <clover outputFile="build/logs/clover.xml"/>
         </report>
     </coverage>
+    <php>
+        <env name="TELESCOPE_ENABLED" value="false"/>
+    </php>
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>

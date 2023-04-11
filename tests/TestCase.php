@@ -8,13 +8,23 @@ use VendorName\Skeleton\SkeletonServiceProvider;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
+    /**
+     * Automatically enables package discoveries.
+     *
+     * @var bool
+     */
+    protected $enablesPackageDiscoveries = true;
 
-//        Factory::guessFactoryNamesUsing(
-//            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
-//        );
+    /**
+     * Automatically loads environment variables.
+     *
+     * @var bool
+     */
+    protected $loadEnvironmentVariables = true;
+
+    public function getEnvironmentSetUp($app): void
+    {
+        config()->set('database.default', 'testing');
     }
 
     protected function getPackageProviders($app): array
@@ -24,13 +34,13 @@ class TestCase extends Orchestra
         ];
     }
 
-    public function getEnvironmentSetUp($app): void
+    public static function applicationBasePath(): string
     {
-        config()->set('database.default', 'testing');
+        return __DIR__.'/../../../../';
+    }
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_skeleton_table.php.stub';
-        $migration->up();
-        */
+    protected function getBasePath(): string
+    {
+        return __DIR__.'/../../../../';
     }
 }
