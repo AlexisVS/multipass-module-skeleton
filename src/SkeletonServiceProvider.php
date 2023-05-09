@@ -2,7 +2,7 @@
 
 namespace VendorName\Skeleton;
 
-use Src\core\module\ModuleServiceProvider;
+use App\Domain\Module\ModuleServiceProvider;
 
 class SkeletonServiceProvider extends ModuleServiceProvider
 {

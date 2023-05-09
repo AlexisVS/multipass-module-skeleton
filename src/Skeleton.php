@@ -2,7 +2,7 @@
 
 namespace VendorName\Skeleton;
 
-use Src\core\module\modules\BaseModuleClass;
+use App\Domain\Module\Modules\BaseModuleClass;
 
 class Skeleton extends BaseModuleClass
 {
