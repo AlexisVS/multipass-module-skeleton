@@ -2,10 +2,10 @@
 
 namespace VendorName\Skeleton\Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Domain\Module\ModuleFactory;
 
 /*
-class ModelFactory extends Factory
+class ModelFactory extends ModuleFactory
 {
     protected $model = YourModel::class;
 

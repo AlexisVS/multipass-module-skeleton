@@ -1,0 +1,42 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "strict": true,
+        "jsx": "preserve",
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "lib": [
+            "ESNext",
+            "DOM"
+        ],
+        "types": [
+            "vite/client",
+            "unplugin-vue-macros/macros-global"
+        ],
+        "typeRoots": [
+            "resources/app/js/types",
+            "../../../resources/js/types"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "resources/app/js/*",
+                "../../../resources/js/*"
+            ],
+            "@img/*": [
+                "resources/app/img/*",
+                "../../../resources/img/*"
+            ],
+            "@modules/*": [
+                "../../../resources/modules/*"
+            ]
+        }
+    },
+    "include": [
+        "resources/**/*",
+        "../../../resources/**/*"
+    ]
+}

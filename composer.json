@@ -48,28 +48,31 @@
     "autoload": {
         "psr-4": {
             "App\\": "../../../app/",
-            "Database\\": "../../../database/",
             "Database\\Factories\\": "../../../database/factories/",
             "Database\\Migrations\\": "../../../database/migrations/",
             "Database\\Seeders\\\\": "../../../database/seeders/",
             "VendorName\\Skeleton\\": "src/",
+            "VendorName\\Skeleton\\": "src/Http/",
+            "VendorName\\Skeleton\\": "src/Http/Controllers/",
             "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/",
             "VendorName\\Skeleton\\Database\\Migrations\\": "database/migrations/",
-            "VendorName\\Skeleton\\Tests\\": "tests/"
+            "VendorName\\Skeleton\\Tests\\": "./tests/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
-            "VendorName\\Skeleton\\": "src/"
+            "VendorName\\Skeleton\\Tests\\": "./tests/"
         }
     },
     "scripts": {
-        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "post-autoload-dump": [
+            "@php ./vendor/bin/testbench package:discover --ansi",
+        ],
         "analyse": "vendor/bin/phpstan analyse",
         "test": [
-            "@php ../../../artisan package:discover --ansi",
-            "vendor/bin/pest"
+            "@php ./vendor/bin/testbench route:clear --ansi",
+            "@php ./vendor/bin/testbench config:clear --ansi",
+            "@php ../../../artisan optimize --ansi"
         ],
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
@@ -83,6 +86,9 @@
     },
     "extra": {
         "laravel": {
+            "dont-discover": [
+                "spatie/laravel-medialibrary"
+            ],
             "providers": [
                 "VendorName\\Skeleton\\SkeletonServiceProvider"
             ],
