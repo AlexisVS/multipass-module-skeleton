@@ -17,11 +17,6 @@ class TestCase extends Orchestra
      */
     protected $loadEnvironmentVariables = true;
 
-    public function getEnvironmentSetUp($app): void
-    {
-        config()->set('database.default', 'testing');
-    }
-
     protected function getPackageProviders($app): array
     {
         return [
@@ -31,11 +26,11 @@ class TestCase extends Orchestra
 
     public static function applicationBasePath(): string
     {
-        return __DIR__.'/../../../../';
+        return __DIR__ . '/../../../../';
     }
 
     protected function getBasePath(): string
     {
-        return __DIR__.'/../../../../';
+        return __DIR__ . '/../../../../';
     }
 }

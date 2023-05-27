@@ -26,7 +26,11 @@
         </report>
     </coverage>
     <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_KEY" value="base64:dhEICh+WCPG5DYQnmDqcCzGV4Z71D7vvXEKFxqdxhbs="/>
         <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
     </php>
     <logging>
         <junit outputFile="build/report.junit.xml"/>

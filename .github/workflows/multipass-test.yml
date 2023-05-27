@@ -9,18 +9,106 @@ env:
   GITHUB_USER: ${{ github.repository_owner }}
 
 jobs:
-  build-and-test:
+  testing:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create Environment
-        uses: ./.github/workflows/create-environment.yml
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Test module
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: ${{ github.workspace }}/database/database.sqlite
+      - id: lower-case_github_user
+        uses: ASzc/change-string-case-action@v5
+        with:
+          string: ${{ github.actor }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, zip, pcntl, exif, gd, pdo_mysql, pdo_sqlite, tokenizer, bcmath, xml, curl, fileinfo, json, intl, mysqli, sqlite3, sockets, opcache, simplexml, xmlwriter, xmlreader, xdebug
+
+      - name: Configure credentials
+        run: |
+          git config --global user.name "AlexisVS"
+          composer config --global github-oauth.github.com ${{ secrets.PAT }}
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: 'AlexisVS/multipass'
+          ref: main
+          token: ${{ secrets.PAT }}
+
+      - name: Prepare environment
+        run: |
+          cp .env.ci .env
+          touch database/database.sqlite
+
+      - name: Directory and Permissions
+        run: |
+          mkdir -p storage/framework/{sessions,views,cache}
+          mkdir -p bootstrap/cache
+          chmod -R 777 storage bootstrap/cache
+
+      - name: Install Composer dependencies
+        run: |
+          cp composer.modules.json.blank composer.modules.json
+          composer update --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Create database
+        run: php artisan migrate:fresh --seed
+
+      - id: lower-case-github-repository
+        uses: ASzc/change-string-case-action@v5
+        with:
+          string: ${{ github.event.repository.name }}
+
+      - name: Create composer.modules.json and fill it
+        run: |
+          cat <<EOF > composer.modules.json
+          {
+            "repositories": [
+            {
+              "type": "vcs",
+              "url": "https://github.com/${{ github.repository }}"
+            }
+          ],
+            "require": {
+              "${{ steps.lower-case_github_user.outputs.lowercase }}/${{ github.event.repository.name }}": "dev-main"
+            }
+          }
+          EOF
+
+      - name: Update Composer modules
+        run: composer update --no-ansi --no-interaction --no-progress
+
+      - name: optimize before build
+        run: |
+          php artisan optimize:clear
+          php artisan ziggy:generate
+
+      - name: Build assets
+        run: npm install && npm run build
+
+      - name: optimize after build
+        run: |
+          php artisan optimize:clear
+          php artisan ziggy:generate
+
+      - name: Check Environment
+        run: ./vendor/bin/phpunit
+
+      - name: Install module dependencies
         run: |
           cd ./vendor/${{ steps.lower-case_github_user.outputs.lowercase }}/${{ env.GITHUB_REPO_NAME }}
           composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-          vendor/bin/pest
+
+      - name: Test module
+        run: |
+          cd ./vendor/${{ steps.lower-case_github_user.outputs.lowercase }}/${{ env.GITHUB_REPO_NAME }}
+          php ./vendor/bin/testbench route:clear --ansi
+          php ./vendor/bin/testbench config:clear --ansi
+          php ./vendor/bin/pest

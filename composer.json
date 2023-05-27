@@ -33,6 +33,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.12",
+        "laravel/dusk": "^7.7",
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^7.9",
         "nunomaduro/larastan": "^2.0.1",
@@ -66,13 +67,15 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "@php ./vendor/bin/testbench package:discover --ansi",
+            "@php ./vendor/bin/testbench package:discover --ansi"
         ],
         "analyse": "vendor/bin/phpstan analyse",
         "test": [
             "@php ./vendor/bin/testbench route:clear --ansi",
             "@php ./vendor/bin/testbench config:clear --ansi",
-            "@php ../../../artisan optimize --ansi"
+            "@php ../../../artisan optimize:clear --ansi",
+            "@php ../../../artisan config:cache --ansi",
+            "@php ./vendor/bin/pest"
         ],
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint"
@@ -87,7 +90,9 @@
     "extra": {
         "laravel": {
             "dont-discover": [
-                "spatie/laravel-medialibrary"
+                "spatie/laravel-medialibrary",
+                "barryvdh/laravel-ide-helper",
+                "barryvdh/laravel-debugbar"
             ],
             "providers": [
                 "VendorName\\Skeleton\\SkeletonServiceProvider"
