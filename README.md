@@ -65,7 +65,7 @@ composer test
 The migration system is really simple, you have two choices for the naming convention:
 
 1.  ``2022_10_12_000000_create_users_table.php`` : directly add timestamp and the rest of the file : _create_XXX_table
-2.  ``create_users_table.php``                   : At the migration process the app will add automatically a timsestamp.
+2.  ``create_users_table.php``                   : At the migration process the app will add automatically a timestamp.
                                                    If you don't have any relationship in your migration this case is better.
 
 
