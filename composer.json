@@ -56,7 +56,8 @@
             "VendorName\\Skeleton\\": "src/Http/",
             "VendorName\\Skeleton\\": "src/Http/Controllers/",
             "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/",
-            "VendorName\\Skeleton\\Database\\Migrations\\": "database/migrations/"
+            "VendorName\\Skeleton\\Database\\Migrations\\": "database/migrations/",
+            "VendorName\\Skeleton\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
