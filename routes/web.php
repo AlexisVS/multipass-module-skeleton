@@ -1,7 +1,7 @@
 <?php
 
-use App\Domain\Domain\Permissions\Enums\DashboardPermissionsEnum;
-use App\Domain\Module\Models\Module;
+use App\Application\Enums\Permission\DashboardPermissionsEnum;
+use App\Infrastructure\Laravel\Models\Module\Module;
 
 $module = Module::where('name', ':package_slug')->first();
 
