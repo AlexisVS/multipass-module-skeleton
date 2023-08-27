@@ -2,10 +2,8 @@
 
 namespace VendorName\Skeleton\Database\Factories;
 
-use App\Domain\Module\ModuleFactory;
-
 /*
-class ModelFactory extends ModuleFactory
+class ModelFactory
 {
     protected $model = YourModel::class;
 

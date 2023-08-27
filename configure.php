@@ -84,7 +84,7 @@ function remove_prefix(string $prefix, string $content): string
 
 function remove_composer_deps(array $names): void
 {
-    $data = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
+    $data = json_decode(file_get_contents(__DIR__ . '/composer.json'), true);
 
     foreach ($data['require-dev'] as $name => $version) {
         if (in_array($name, $names, true)) {
@@ -92,12 +92,12 @@ function remove_composer_deps(array $names): void
         }
     }
 
-    file_put_contents(__DIR__.'/composer.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+    file_put_contents(__DIR__ . '/composer.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 }
 
 function remove_composer_script($scriptName): void
 {
-    $data = json_decode(file_get_contents(__DIR__.'/composer.json'), true);
+    $data = json_decode(file_get_contents(__DIR__ . '/composer.json'), true);
 
     foreach ($data['scripts'] as $name => $script) {
         if ($scriptName === $name) {
@@ -106,7 +106,7 @@ function remove_composer_script($scriptName): void
         }
     }
 
-    file_put_contents(__DIR__.'/composer.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
+    file_put_contents(__DIR__ . '/composer.json', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 }
 
 function remove_readme_paragraphs(string $file): void
@@ -217,10 +217,10 @@ foreach ($files as $file) {
     ]);
 
     match (true) {
-        str_contains($file, determineSeparator('src/Skeleton.php')) => rename($file, determineSeparator('./src/'.$className.'.php')),
-        str_contains($file, determineSeparator('src/SkeletonServiceProvider.php')) => rename($file, determineSeparator('./src/'.$className.'ServiceProvider.php')),
-        str_contains($file, determineSeparator('src/Facades/Skeleton.php')) => rename($file, determineSeparator('./src/Facades/'.$className.'.php')),
-        str_contains($file, determineSeparator('src/Commands/SkeletonCommand.php')) => rename($file, determineSeparator('./src/Commands/'.$className.'Command.php')),
+        str_contains($file, determineSeparator('Infrastructure/Skeleton.php')) => rename($file, determineSeparator('./Infrastructure/'.$className.'.php')),
+        str_contains($file, determineSeparator('Applications/Providers/SkeletonServiceProvider.php')) => rename($file, determineSeparator('./Applications/Providers/'.$className.'ServiceProvider.php')),
+        str_contains($file, determineSeparator('Infrastructure/Facades/Skeleton.php')) => rename($file, determineSeparator('./Infrastructure/Facades/'.$className.'.php')),
+        str_contains($file, determineSeparator('UserInterface/Commands/SkeletonCommand.php')) => rename($file, determineSeparator('./UserInterface/Commands/'.$className.'Command.php')),
         str_contains($file, determineSeparator('database/migrations/create_skeleton_table.php.stub')) => rename($file, determineSeparator('./database/migrations/create_'.title_snake($packageSlugWithoutPrefix).'_table.php.stub')),
         str_contains($file, determineSeparator('config/skeleton.php')) => rename($file, determineSeparator('./config/'.$packageSlugWithoutPrefix.'.php')),
         str_contains($file, 'README.md') => remove_readme_paragraphs($file),
@@ -229,14 +229,14 @@ foreach ($files as $file) {
 }
 
 if (! $useLaravelPint) {
-    safeUnlink(__DIR__.'/.github/workflows/fix-php-code-style-issues.yml');
+    safeUnlink(__DIR__ . '/.github/workflows/fix-php-code-style-issues.yml');
     safeUnlink(__DIR__.'/pint.json');
 }
 
 if (! $usePhpStan) {
-    safeUnlink(__DIR__.'/phpstan.neon.dist');
-    safeUnlink(__DIR__.'/phpstan-baseline.neon');
-    safeUnlink(__DIR__.'/.github/workflows/phpstan.yml');
+    safeUnlink(__DIR__ . '/phpstan.neon.dist');
+    safeUnlink(__DIR__ . '/phpstan-baseline.neon');
+    safeUnlink(__DIR__ . '/.github/workflows/phpstan.yml');
 
     remove_composer_deps([
         'phpstan/extension-installer',
@@ -249,8 +249,8 @@ if (! $usePhpStan) {
 }
 
 if (! $useDependabot) {
-    safeUnlink(__DIR__.'/.github/dependabot.yml');
-    safeUnlink(__DIR__.'/.github/workflows/dependabot-auto-merge.yml');
+    safeUnlink(__DIR__ . '/.github/dependabot.yml');
+    safeUnlink(__DIR__ . '/.github/workflows/dependabot-auto-merge.yml');
 }
 
 if (! $useLaravelRay) {
@@ -258,7 +258,7 @@ if (! $useLaravelRay) {
 }
 
 if (! $useUpdateChangelogWorkflow) {
-    safeUnlink(__DIR__.'/.github/workflows/update-changelog.yml');
+    safeUnlink(__DIR__ . '/.github/workflows/update-changelog.yml');
 }
 
 confirm('Execute `composer install` and run tests?') && run('composer install && composer test');

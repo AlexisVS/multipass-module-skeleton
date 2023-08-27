@@ -20,7 +20,7 @@
             "resources/app/js/types",
             "../../../resources/js/types"
         ],
-        "baseUrl": ".",
+        "baseUrl": "./",
         "paths": {
             "@/*": [
                 "resources/app/js/*",
