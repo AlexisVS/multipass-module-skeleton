@@ -217,10 +217,10 @@ foreach ($files as $file) {
     ]);
 
     match (true) {
-        str_contains($file, determineSeparator('Infrastructure/Skeleton.php')) => rename($file, determineSeparator('./Infrastructure/'.$className.'.php')),
-        str_contains($file, determineSeparator('Applications/Providers/SkeletonServiceProvider.php')) => rename($file, determineSeparator('./Applications/Providers/'.$className.'ServiceProvider.php')),
-        str_contains($file, determineSeparator('Infrastructure/Facades/Skeleton.php')) => rename($file, determineSeparator('./Infrastructure/Facades/'.$className.'.php')),
-        str_contains($file, determineSeparator('UserInterface/Commands/SkeletonCommand.php')) => rename($file, determineSeparator('./UserInterface/Commands/'.$className.'Command.php')),
+        str_contains($file, determineSeparator('app/Infrastructure/Skeleton.php')) => rename($file, determineSeparator('./app/Infrastructure/'.$className.'.php')),
+        str_contains($file, determineSeparator('app/Applications/Providers/SkeletonServiceProvider.php')) => rename($file, determineSeparator('./app/Applications/Providers/'.$className.'ServiceProvider.php')),
+        str_contains($file, determineSeparator('app/Infrastructure/Facades/Skeleton.php')) => rename($file, determineSeparator('./app/Infrastructure/Facades/'.$className.'.php')),
+        str_contains($file, determineSeparator('app/UserInterface/Commands/SkeletonCommand.php')) => rename($file, determineSeparator('./app/UserInterface/Commands/'.$className.'Command.php')),
         str_contains($file, determineSeparator('database/migrations/create_skeleton_table.php.stub')) => rename($file, determineSeparator('./database/migrations/create_'.title_snake($packageSlugWithoutPrefix).'_table.php.stub')),
         str_contains($file, determineSeparator('config/skeleton.php')) => rename($file, determineSeparator('./config/'.$packageSlugWithoutPrefix.'.php')),
         str_contains($file, 'README.md') => remove_readme_paragraphs($file),

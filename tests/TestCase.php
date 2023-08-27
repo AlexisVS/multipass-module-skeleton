@@ -10,12 +10,12 @@ class TestCase extends Orchestra
     /**
      * Automatically enables package discoveries.
      */
-    protected $enablesPackageDiscoveries = true;
+    protected bool $enablesPackageDiscoveries = true;
 
     /**
      * Automatically loads environment variables.
      */
-    protected $loadEnvironmentVariables = true;
+    protected bool $loadEnvironmentVariables = true;
 
     protected function getPackageProviders($app): array
     {
@@ -26,11 +26,11 @@ class TestCase extends Orchestra
 
     public static function applicationBasePath(): string
     {
-        return __DIR__ . '/../../../www/';
+        return __DIR__ . '/../../../../';
     }
 
     protected function getBasePath(): string
     {
-        return __DIR__ . '/../../../www/';
+        return __DIR__ . '/../../../../';
     }
 }
